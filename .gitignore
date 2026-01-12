@@ -14,7 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# Note: lib/ directory removed from ignore as it's no longer used
+# lib/
 lib64/
 parts/
 sdist/

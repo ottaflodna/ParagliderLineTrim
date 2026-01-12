@@ -1,0 +1,4 @@
+# LineTrim Dependencies
+PyQt5>=5.9.2
+matplotlib>=3.0.0
+numpy>=1.18.0
