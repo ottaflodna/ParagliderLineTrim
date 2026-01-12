@@ -221,7 +221,7 @@ def main():
     print("-" * 40)
     
     # Allow user to specify port as command line argument
-    port = sys.argv[1] if len(sys.argv) > 1 else None
+    port = sys.argv[1] if len(sys.argv) > 1 else "/dev/rfcomm0"
     
     # Create and connect to Disto
     disto = LeicaDistoD1(port=port)
