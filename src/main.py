@@ -270,6 +270,10 @@ class LineTrim(Ui_LineTrim):
         except:
             number = 0
         self.active = "%s%02i_%s"%(self.comboBox_Row.currentText(), number, self.comboBox_Side.currentText(), )
+        
+        # Set focus back to measurement input after dropdown selection
+        if display_active:
+            self.lineEdit_Measurement.setFocus()
 
         ax.cla()
         ax.set_xlim(0,w)
