@@ -3,7 +3,7 @@
 cd "$(dirname "$0")/.."
 export PYTHONPATH="$PWD"
 
-python3 resources/leica_disto_connect/connect.py &
+python3 hardware/leica_disto/connect.py &
 
 cd src
 python3 main.py
