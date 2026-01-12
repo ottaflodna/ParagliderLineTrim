@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Nov 26 16:02:05 2021
-
-@author: loic
+Line Trim - Python app dedicated to trimming of paraglider line length
 """
 
 from PyQt5 import QtGui, QtWidgets, QtMultimedia
