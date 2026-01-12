@@ -14,38 +14,38 @@ keyboard = Controller()
 
 def on_measure(sender, data):
     try:
-        # Conversion float 32 → mètres
+        # Convert float 32 to meters
         val_m = struct.unpack('<f', data)[0]
 
-        # Conversion en mm
+        # Convert to mm
         val_mm = int(round(val_m * 1000))
 
-        # Transformer en chaîne
+        # Convert to string
         text = str(val_mm)
 
-        # Simuler la frappe clavier
+        # Simulate keyboard typing
         for c in text:
             keyboard.press(c)
             keyboard.release(c)
 
-        # Entrée
+        # Enter key
         keyboard.press(Key.enter)
         keyboard.release(Key.enter)
 
-        print(f"Mesure envoyée au clavier: {text} mm")
+        print(f"Measurement sent to keyboard: {text} mm")
 
     except Exception:
-        print("Erreur sur la donnée brute:", data)
+        print("Raw data:", data)
 
 async def main():
     devices = await BleakScanner.discover(timeout=5)
     disto = next((d for d in devices if d.name and DISTO_NAME in d.name), None)
     if disto is None:
-        print("DISTO non trouvé")
+        print("DISTO not found")
         return
 
     async with BleakClient(disto) as client:
-        print("Connecté au DISTO")
+        print("Connected to DISTO")
         services = client.services
 
         chars = []
@@ -60,19 +60,19 @@ async def main():
                     chars.append(char)
 
         if not chars:
-            print("Aucune characteristic notify/indicate trouvée")
+            print("No notify/indicate characteristic found")
             return
 
         for char in chars:
-            print("Abonnement sur", char.uuid, char.properties)
+            print("Subscribing to", char.uuid, char.properties)
             try:
                 await client.start_notify(char.uuid, on_measure)
             except Exception as e:
-                print(f"Erreur lors de l'abonnement à {char.uuid}: {e}")
+                print(f"Error subscribing to {char.uuid}: {e}")
                 continue
 
-        print("👉 Appuie sur MESURE sur le DISTO")
-        print("Ctrl+C pour quitter")
+        print("👉 Press MEASURE on the DISTO")
+        print("Ctrl+C to quit")
         while True:
             await asyncio.sleep(1)
 
