@@ -1,13 +1,19 @@
 @echo off
 
+REM Initialize Conda for cmd.exe
+call "%USERPROFILE%\AppData\Local\anaconda3\Scripts\activate.bat"
+
 REM Activate Anaconda base environment
-call C:\Users\vvyloi02\AppData\Local\anaconda3\condabin\conda activate base
+call conda activate base
 echo Conda base environment activated
 
-REM Run the connect.py script from hardware/leica_disto/
-start "" python3 "%~dp0..\hardware\leica_disto\connect.py"
+REM Run the connect.py script from hardware/leica_disto/ in a separate window
+start "Leica Disto Connect" cmd /k "conda activate base && python "%~dp0..\hardware\leica_disto\connect.py""
 
-cd ..
+REM Change to project root and set PYTHONPATH
+cd /d "%~dp0.."
 set PYTHONPATH=%CD%
+
+REM Run the main application
 cd src
-python3 main.py
+python main.py
