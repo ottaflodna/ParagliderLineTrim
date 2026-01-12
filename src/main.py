@@ -81,7 +81,7 @@ class LineTrim(Ui_LineTrim):
         self.switchSound()
         
         self.measured_line_length = dict()
-        self.profile = np.loadtxt(os.path.join(root, "data", "profiles", "Profile.txt")) 
+        self.profile = np.loadtxt(os.path.join(root, "resources", "profiles", "Profile.txt")) 
         
         self.main_window.setWindowTitle("Line Trim - version %s"%self.version_number) 
         self.main_window.setWindowIcon(QtGui.QIcon(os.path.join(root, "resources", "images", "feather.png")))
