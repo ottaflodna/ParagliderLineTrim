@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan 12 13:56:40 2026
-
-@author: loic
+Connect to Leica DISTO via Bluetooth and send measurements as keyboard input
 """
 import asyncio
 import struct
@@ -52,6 +50,11 @@ async def main():
 
         chars = []
         for service in services:
+            # Skip standard GATT services (16-bit UUIDs in the 0000XXXX-0000-1000-8000-00805f9b34fb format)
+            service_uuid = service.uuid.lower()
+            if service_uuid.startswith("0000") and service_uuid.endswith("-0000-1000-8000-00805f9b34fb"):
+                continue
+            
             for char in service.characteristics:
                 if "notify" in char.properties or "indicate" in char.properties:
                     chars.append(char)
@@ -62,7 +65,11 @@ async def main():
 
         for char in chars:
             print("Abonnement sur", char.uuid, char.properties)
-            await client.start_notify(char.uuid, on_measure)
+            try:
+                await client.start_notify(char.uuid, on_measure)
+            except Exception as e:
+                print(f"Erreur lors de l'abonnement à {char.uuid}: {e}")
+                continue
 
         print("👉 Appuie sur MESURE sur le DISTO")
         print("Ctrl+C pour quitter")
